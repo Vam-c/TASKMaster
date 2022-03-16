@@ -7,7 +7,6 @@ const _ = require("lodash");
 const session = require("express-session");
 const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
-const { redirect } = require("express/lib/response");
 
 const app = express();
 
@@ -70,7 +69,7 @@ app.post("/register", function(req, res){
             res.redirect("/register");
         } else {
             passport.authenticate("local",{ failureRedirect: '/login'})(req, res, function(){
-                res.redirect("/");
+                res.redirect("/" + req.user.username);
             });
         }
     });
@@ -88,7 +87,7 @@ app.post("/login", function(req, res){
     req.login(user, function(err){
         if (err){
             console.log(err);
-            res.redirect("/");
+            res.redirect("/login");
         } else {
      
             passport.authenticate("local", { failureRedirect: '/login'})(req, res, function(){
@@ -176,7 +175,7 @@ app.get("/:customListName", function(req, res){
     if(req.isAuthenticated()){
         const customListName = req.params.customListName;
         if(req.user.username !== customListName){
-            redirect("/" + req.user.username);
+            res.redirect("/" + req.user.username);
         } else {
             List.findOne({name: customListName}, function(err, returned){
                 if(err){
@@ -190,7 +189,6 @@ app.get("/:customListName", function(req, res){
                         list.save();
                         res.redirect("/"+customListName);
                     } else {
-                        console.log("dskhfjkasdkf");
                         res.render("list",{listTitle: customListName, newListItems: returned.items});
                     }
                 }
@@ -198,7 +196,7 @@ app.get("/:customListName", function(req, res){
         }    
     } else {
         console.log("User not authenticated. (At custom list level)");
-        // redirect("/login");
+        res.redirect("/login");
     }
     
 

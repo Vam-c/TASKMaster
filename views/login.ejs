@@ -3,7 +3,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Signin to your To-Do List</title>
+    <title>TASKMASTER</title>
 
 
     <!-- Bootstrap core CSS -->
@@ -32,12 +32,13 @@
 
     <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
   </form>
-  <form action="/redirect-to-register" method="post">
-
     <br>
-    <label for="button">Not Registered?</label>
-    <button type="submit" class="btn btn-primary">Register</button>
-  </form>
+    <form action="/register" method="get">
+      <label for="button">Not Registered?</label>
+      <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+    
+
 </main>
   </body>
 </html>
