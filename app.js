@@ -48,7 +48,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 const item1 = new Item({
-    name: "Welcome to yout To-Do list."
+    name: "Welcome to your To-Do list."
 });
 const item2 = new Item({
     name: "+ to add new item."
@@ -195,13 +195,19 @@ app.get("/:customListName", function(req, res){
             });
         }    
     } else {
-        console.log("User not authenticated. (At custom list level)");
-        res.redirect("/login");
+        res.render("index",{error: "User not authenticated.", path: "/login"});
     }
     
 
 });
 
+app.get("/alert/js", function(req, res){
+    res.sendFile(__dirname+ "/public/alert.js");
+});
+
+app.get("/alert/alert", function(req, res){
+    res.render("index");
+});
 
 
 app.listen(3000, function() {
