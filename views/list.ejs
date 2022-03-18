@@ -4,7 +4,7 @@
       <div class="left-panel panel">
           
           <div class="city">
-              Mumbai
+              <%= place %>
           </div>
           <div class="temp">
             <img src=<%= iconurl %> alt="weathericon" width="60">
@@ -16,13 +16,22 @@
     </div>
 
 </div>
+
+<!-- motivational quote -->
+
+<blockquote class="blockquote"><p><%= quote %></p><span class="author">- <%= author %></span></blockquote>
+  
+</blockquote>
+
+
+
   <div class="box" id="heading">
     <h1> To Do: <%= listTitle %> </h1>
   </div>
 
   
 
-  <div class="box">
+  <div class="box big-box">
     <% newListItems.forEach(function(item){ %>
         <form action="/delete" method="post">
             <div class="item">

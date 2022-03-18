@@ -11,6 +11,8 @@ html {
 div.widget
 {
   position: fixed;
+  top: 50%;
+  left: 70%;
   width: 355px;
   height: 125px;
   margin: 150px auto;
@@ -70,8 +72,15 @@ h1 {
 }
 
 #heading {
+  position: relative;
+  top: 70px;
   background-color: #1a78e4fb;
   text-align: center;
+}
+
+.big-box{
+  position: relative;
+  top: 80px;
 }
 
 .item {
@@ -192,3 +201,58 @@ footer {
  .logout:active {
   transform: translateY(-1px);
  }
+
+ .blockquote {
+  padding: 30px;
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 30%;
+}
+.blockquote span{
+  font-family: 'Playball', cursive;
+  position: absolute;
+  font-size: 25px;
+  right: 80px;
+  padding-top: 20px;
+}
+.blockquote p {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 30px;
+  font-weight: 700px;
+  text-align: center;
+}
+
+/*blockquote p::before {
+  content: "\f095"; 
+  font-family: FontAwesome;
+ display: inline-block;
+ padding-right: 6px;
+ vertical-align: middle;
+font-size: 180px;
+}*/
+
+.blockquote:before {
+position: absolute;
+font-family: 'FontAwesome';
+top: 0;
+
+content:"\f10d";
+font-size: 200px;
+color: rgba(0,0,0,0.1);
+ 
+}
+
+.blockquote::after {
+  content: "";
+  top: 20px;
+  left: 50%;
+  margin-left: -100px;
+  position: absolute;
+  border-bottom: 3px solid #bf0024;
+  height: 3px;
+  width: 200px;
+}
+
+
+
