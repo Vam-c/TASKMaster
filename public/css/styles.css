@@ -170,7 +170,7 @@ footer {
 /* From cssbuttons.io */
 .logout {
   position: relative;
-  left: 130px;
+  left: 60%;
   padding: 1.3em 3em;
   font-size: 12px;
   text-transform: uppercase;
