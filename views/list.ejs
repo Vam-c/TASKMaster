@@ -1,8 +1,26 @@
 <%- include("header") -%>
+<div class="widget">
+            
+      <div class="left-panel panel">
+          
+          <div class="city">
+              Mumbai
+          </div>
+          <div class="temp">
+            <img src=<%= iconurl %> alt="weathericon" width="60">
+            <%= temp %>&deg;
+          </div>
+      </div>
+      <div class="right-panel panel">
+        <img src="https://s5.postimg.cc/lifnombwz/mumbai1.png" alt="" width="160">
+    </div>
 
+</div>
   <div class="box" id="heading">
-    <h1> <%= listTitle %> </h1>
+    <h1> To Do: <%= listTitle %> </h1>
   </div>
+
+  
 
   <div class="box">
     <% newListItems.forEach(function(item){ %>
@@ -15,16 +33,17 @@
         </form>
 
     <% }) %>
-      <form class="item" action="/" method="post">
+      <form class="item entry" action="/" method="post">
         <input type="text" name="newItem" placeholder="New Item" autocomplete="off">
         <button type="submit" class="roundbutton" name="list" value="<%= listTitle %>">+</button>
+      </form>
+      <form action="/logout" method="get">
+        <button type="submit" class="logout">Logout</button>
       </form>
   </div>
 
 
-    <form action="/logout" method="get">
-      <button type="submit" class="logout">Logout</button>
-    </form>
+    
 
 
 <%- include("footer") -%>

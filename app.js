@@ -7,6 +7,7 @@ const _ = require("lodash");
 const session = require("express-session");
 const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
+const https = require("https");
 
 const app = express();
 
@@ -195,7 +196,25 @@ app.get("/:customListName", function(req, res){
                         list.save();
                         res.redirect("/"+customListName);
                     } else {
-                        res.render("list",{listTitle: customListName, newListItems: returned.items});
+                        //weather render.
+                        const query = "Mumbai";
+                        const appid = "2496ff6d51d64f03802e33f7e0718f36";
+                        const url = "https://api.openweathermap.org/data/2.5/weather?q="+query+"&appid="+appid+"&units=metric";
+                        https.get(url, function(res1){
+                            res1.on("data",function(data){
+                                const weatherData = JSON.parse(data);
+                                const temperature = Math.round(weatherData.main.temp);
+                                const icon = weatherData.weather[0].icon;
+                                const iconurl = "http://openweathermap.org/img/wn/"+icon+"@2x.png";
+                                res.render("list",{listTitle: customListName, newListItems: returned.items,
+                                    temp: temperature,
+                                    icon: icon,
+                                    iconurl: iconurl
+        
+                                });
+                            });
+                        });
+                        
                     }
                 }
             });
