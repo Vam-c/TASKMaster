@@ -110,74 +110,75 @@ app.get("/logout", function(req, res){
 });
 
 app.get("/", function(req, res) {
-    Item.find({},function(err, returnedItems){
-        if(err){
-            console.log(err);
-        } else {
-            if(returnedItems.length === 0){
-                Item.insertMany(defaultItems, function(err){
-                    if(err){
-                        console.log(err);
-                    } else {
-                        console.log("Default items inserted into database");
-                    }
-                });
-                res.redirect("/");
-            } else {
-                //weather render.
-                const query = "Mumbai";
-                const appid = "2496ff6d51d64f03802e33f7e0718f36";
-                const url = "https://api.openweathermap.org/data/2.5/weather?q="+query+"&appid="+appid+"&units=metric";
-                https.get("https://zenquotes.io/api/random", function(response){
-                    response.on("data", function(data){
-                        const quoteData = JSON.parse(data);  
-                        https.get(url, function(res1){
-                            res1.on("data",function(data){
-                                const weatherData = JSON.parse(data);
-                                const temperature = Math.round(weatherData.main.temp);
-                                const icon = weatherData.weather[0].icon;
-                                const iconurl = "http://openweathermap.org/img/wn/"+icon+"@2x.png";    
-                                // console.log(quoteData[0]);                                            
-                                res.render("list",{listTitle: "TASKMaster", newListItems: returnedItems,
-                                    temp: temperature,
-                                    icon: icon,
-                                    iconurl: iconurl,
-                                    place: query,
-                                    quote: quoteData[0].q,
-                                    author: quoteData[0].a,
-                                });
-                            });
-                        });                          
-                    });
-                }); 
-            }
-        }
-    });
+    res.redirect("login");
+    // Item.find({},function(err, returnedItems){
+    //     if(err){
+    //         console.log(err);
+    //     } else {
+    //         if(returnedItems.length === 0){
+    //             Item.insertMany(defaultItems, function(err){
+    //                 if(err){
+    //                     console.log(err);
+    //                 } else {
+    //                     console.log("Default items inserted into database");
+    //                 }
+    //             });
+    //             res.redirect("/");
+    //         } else {
+    //             //weather render.
+    //             const query = "Mumbai";
+    //             const appid = "2496ff6d51d64f03802e33f7e0718f36";
+    //             const url = "https://api.openweathermap.org/data/2.5/weather?q="+query+"&appid="+appid+"&units=metric";
+    //             https.get("https://zenquotes.io/api/random", function(response){
+    //                 response.on("data", function(data){
+    //                     const quoteData = JSON.parse(data);  
+    //                     https.get(url, function(res1){
+    //                         res1.on("data",function(data){
+    //                             const weatherData = JSON.parse(data);
+    //                             const temperature = Math.round(weatherData.main.temp);
+    //                             const icon = weatherData.weather[0].icon;
+    //                             const iconurl = "http://openweathermap.org/img/wn/"+icon+"@2x.png";    
+    //                             // console.log(quoteData[0]);                                            
+    //                             res.render("list",{listTitle: "TASKMaster", newListItems: returnedItems,
+    //                                 temp: temperature,
+    //                                 icon: icon,
+    //                                 iconurl: iconurl,
+    //                                 place: query,
+    //                                 quote: quoteData[0].q,
+    //                                 author: quoteData[0].a,
+    //                             });
+    //                         });
+    //                     });                          
+    //                 });
+    //             }); 
+    //         }
+    //     }
+    // });
 });
 
-app.post("/", function(req, res){
-    const listName = req.body.list;
-    const itemName = req.body.newItem;
+// app.post("/", function(req, res){
+//     const listName = req.body.list;
+//     const itemName = req.body.newItem;
 
-    const item = new Item({
-      name: itemName
-  });
+//     const item = new Item({
+//       name: itemName
+//   });
 
-    if(listName === "TASKMaster"){
-        item.save();
-        res.redirect("/");
-    } else {
-        List.findOne({name: listName}, function(err, foundList){
-            if(err){
-                console.log(err);
-            } else {
-                foundList.items.push(item);
-                foundList.save();
-                res.redirect("/"+ listName);
-            }
-        });
-    }
-});
+//     if(listName === "TASKMaster"){
+//         item.save();
+//         res.redirect("/");
+//     } else {
+//         List.findOne({name: listName}, function(err, foundList){
+//             if(err){
+//                 console.log(err);
+//             } else {
+//                 foundList.items.push(item);
+//                 foundList.save();
+//                 res.redirect("/"+ listName);
+//             }
+//         });
+//     }
+// });
 
 app.post("/delete", function(req, res){
     const checkedItemID = req.body.checkbox;
