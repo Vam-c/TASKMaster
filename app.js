@@ -65,10 +65,9 @@ app.get("/register", function(req, res){
 app.post("/register", function(req, res){
     User.register({username: req.body.username}, req.body.password, function(err, user){
         if (err){
-            console.log(err);
-            res.redirect("/register");
+            res.render("alert",{message: err, redirect: "/register"});
         } else {
-            passport.authenticate("local",{ failureRedirect: '/login'})(req, res, function(){
+            passport.authenticate("local",{ failureRedirect: '/register'})(req, res, function(){
                 res.redirect("/" + req.user.username);
             });
         }
@@ -86,12 +85,19 @@ app.post("/login", function(req, res){
     });
     req.login(user, function(err){
         if (err){
-            console.log(err);
-            res.redirect("/login");
+            res.render("alert",{message: err, redirect: "/login"});
         } else {
-     
-            passport.authenticate("local", { failureRedirect: '/login'})(req, res, function(){
-                res.redirect("/"+ req.user.username);
+            passport.authenticate("local", {failureRedirect: '/login'}, function(err, thisModel, error){
+                if(err){
+                    console.log(err);
+                } else if(error) {
+                    res.render("alert",{message: error, redirect: "/login"});
+                } else {
+                    res.redirect("/"+ req.user.username);    
+                }
+                
+            })(req, res, function(){
+               //why is this required for the previous page to render.
             });
         }     
     });
@@ -99,7 +105,7 @@ app.post("/login", function(req, res){
 //logout.
 app.get("/logout", function(req, res){
     req.logout();
-    res.redirect("/login");
+    res.render("alert",{message: "Successfully logged out.", redirect: "/login"});
 });
 
 app.get("/", function(req, res) {
@@ -195,18 +201,10 @@ app.get("/:customListName", function(req, res){
             });
         }    
     } else {
-        res.render("index",{error: "User not authenticated.", path: "/login"});
+        res.render("alert",{message: "User not authenticated.", redirect: "/login"});
     }
     
 
-});
-
-app.get("/alert/js", function(req, res){
-    res.sendFile(__dirname+ "/public/alert.js");
-});
-
-app.get("/alert/alert", function(req, res){
-    res.render("index");
 });
 
 
