@@ -156,29 +156,29 @@ app.get("/", function(req, res) {
     // });
 });
 
-// app.post("/", function(req, res){
-//     const listName = req.body.list;
-//     const itemName = req.body.newItem;
+app.post("/", function(req, res){
+    const listName = req.body.list;
+    const itemName = req.body.newItem;
 
-//     const item = new Item({
-//       name: itemName
-//   });
+    const item = new Item({
+      name: itemName
+  });
 
-//     if(listName === "TASKMaster"){
-//         item.save();
-//         res.redirect("/");
-//     } else {
-//         List.findOne({name: listName}, function(err, foundList){
-//             if(err){
-//                 console.log(err);
-//             } else {
-//                 foundList.items.push(item);
-//                 foundList.save();
-//                 res.redirect("/"+ listName);
-//             }
-//         });
-//     }
-// });
+    if(listName === "TASKMaster"){
+        item.save();
+        res.redirect("/");
+    } else {
+        List.findOne({name: listName}, function(err, foundList){
+            if(err){
+                console.log(err);
+            } else {
+                foundList.items.push(item);
+                foundList.save();
+                res.redirect("/"+ listName);
+            }
+        });
+    }
+});
 
 app.post("/delete", function(req, res){
     const checkedItemID = req.body.checkbox;
