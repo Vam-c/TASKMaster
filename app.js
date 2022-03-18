@@ -124,7 +124,32 @@ app.get("/", function(req, res) {
                 });
                 res.redirect("/");
             } else {
-                res.render("list", {listTitle: "This is the To Do Template", newListItems: returnedItems});
+                //weather render.
+                const query = "Mumbai";
+                const appid = "2496ff6d51d64f03802e33f7e0718f36";
+                const url = "https://api.openweathermap.org/data/2.5/weather?q="+query+"&appid="+appid+"&units=metric";
+                https.get("https://zenquotes.io/api/random", function(response){
+                    response.on("data", function(data){
+                        const quoteData = JSON.parse(data);  
+                        https.get(url, function(res1){
+                            res1.on("data",function(data){
+                                const weatherData = JSON.parse(data);
+                                const temperature = Math.round(weatherData.main.temp);
+                                const icon = weatherData.weather[0].icon;
+                                const iconurl = "http://openweathermap.org/img/wn/"+icon+"@2x.png";    
+                                // console.log(quoteData[0]);                                            
+                                res.render("list",{listTitle: "TASKMaster", newListItems: returnedItems,
+                                    temp: temperature,
+                                    icon: icon,
+                                    iconurl: iconurl,
+                                    place: query,
+                                    quote: quoteData[0].q,
+                                    author: quoteData[0].a,
+                                });
+                            });
+                        });                          
+                    });
+                }); 
             }
         }
     });
@@ -138,7 +163,7 @@ app.post("/", function(req, res){
       name: itemName
   });
 
-    if(listName === "Today"){
+    if(listName === "TASKMaster"){
         item.save();
         res.redirect("/");
     } else {
@@ -233,7 +258,10 @@ app.get("/:customListName", function(req, res){
 
 });
 
-
-app.listen(3000, function() {
-  console.log("Server started successfully");
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 3000;
+}
+app.listen(port, function(){
+    console.log("Server started successfully");
 });
